@@ -26,7 +26,8 @@ class BinarySearchTree:
     def add_node_recursive(self, key, val):
         if self.root is None:
             self.root = TreeNode(key, val)
-        self._add_node_recursive(key, val, self.root)
+        else:
+            self._add_node_recursive(key, val, self.root)
 
     def _add_node_recursive(self, key, val, curr_node):
         lc = curr_node.has_left_child()
@@ -37,13 +38,13 @@ class BinarySearchTree:
                 self._add_node_recursive(key, val, lc)
             else:
                 curr_node.left_child = TreeNode(key, val, parent=curr_node)
-                self.size += 1
+            self.size += 1
         elif key > curr_node.key:
             if rc:
                 self._add_node_recursive(key, val, rc)
             else:
                 curr_node.right_child = TreeNode(key, val, parent=curr_node)
-                self.size += 1
+            self.size += 1
         else:
             curr_node.val = val
 
