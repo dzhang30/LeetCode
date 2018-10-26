@@ -3,7 +3,8 @@ import unittest
 from dataclasses import dataclass
 from typing import Union, List, Set, Dict, Iterator, Tuple, Any
 
-from pandas import DataFrame
+import pandas as pd
+from tabulate import tabulate
 
 
 @dataclass
@@ -90,8 +91,8 @@ def pprint_rows_df(cols: List[str], rows: List[List[Any]]) -> None:
     :param rows: List of rows
     :return: None
     """
-    table = list(generate_rows(cols, rows))
-    print(DataFrame(table))
+    table = pd.DataFrame(list(generate_rows(cols, rows)))
+    print(tabulate(table, headers=table.keys(), tablefmt='fancy_grid'))
 
 
 ############ Test ############
@@ -134,9 +135,9 @@ class TestInternCode(unittest.TestCase):
 
         self.assertListEqual(expected_output, list(test_output))
         self.assertListEqual([], list(generate_rows([], [])))
-
+        
         with self.assertRaises(ValueError):
-            generate_rows(['id', 'name', 'age'], [[7, 'not enough args']])
+            list(generate_rows(['id', 'name', 'age'], [[7]]))
 
 
 if __name__ == '__main__':
